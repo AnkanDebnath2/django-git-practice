@@ -1,0 +1,18 @@
+{% extends 'marketplace/base.html' %}
+{% block title %}Delete Listing{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title">Delete Listing</h2>
+                <p>Are you sure you want to remove <strong>{{ listing.title }}</strong>?</p>
+                <form method="post">{% csrf_token %}
+                    <button class="btn btn-danger">Yes, delete listing</button>
+                    <a href="{% url 'listing_detail' listing.pk %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'marketplace/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="hero text-white mb-5">
+    <div class="container py-5 text-center">
+        <h1 class="display-5 fw-bold">Flatax — Find your next flat fast</h1>
+        <p class="lead text-light">Browse curated flat listings, message sellers directly, and book visits in one place.</p>
+        <a class="btn btn-lg btn-light text-primary" href="{% url 'search_listings' %}">Start Searching</a>
+    </div>
+</div>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for listing in listings %}
+        <div class="col">
+            <div class="card listing-card h-100 shadow-sm">
+                {% if listing.image_url %}
+                    <img src="{{ listing.image_url }}" class="card-img-top" alt="{{ listing.title }}">
+                {% else %}
+                    <div class="placeholder-img">Image coming soon</div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ listing.title }}</h5>
+                    <p class="card-text text-muted">{{ listing.location }}</p>
+                    <p class="card-text">{{ listing.description|truncatechars:100 }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-primary">₹{{ listing.price }}</span>
+                    <a href="{% url 'listing_detail' listing.pk %}" class="btn btn-sm btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No listings are available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

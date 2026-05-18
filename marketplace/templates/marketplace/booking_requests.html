@@ -1,0 +1,41 @@
+{% extends 'marketplace/base.html' %}
+{% block title %}Booking Requests{% endblock %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-6">
+        <h3>Your Requests</h3>
+        {% for booking in buyer_requests %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h5>{{ booking.listing.title }}</h5>
+                    <p class="mb-1">Seller: {{ booking.seller.username }}</p>
+                    <p class="mb-1">Visit date: {{ booking.visit_date }}</p>
+                    <span class="badge bg-secondary">{{ booking.status|title }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-secondary">You have not requested any visits yet.</div>
+        {% endfor %}
+    </div>
+    <div class="col-lg-6">
+        <h3>Incoming Requests</h3>
+        {% for booking in seller_requests %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h5>{{ booking.listing.title }}</h5>
+                    <p class="mb-1">Buyer: {{ booking.buyer.username }}</p>
+                    <p class="mb-1">Visit date: {{ booking.visit_date }}</p>
+                    <p class="mb-1">Message: {{ booking.message|default:'No message provided.' }}</p>
+                    <div class="btn-group mt-2" role="group">
+                        <a href="{% url 'booking_action' booking.pk 'accept' %}" class="btn btn-sm btn-success">Accept</a>
+                        <a href="{% url 'booking_action' booking.pk 'reject' %}" class="btn btn-sm btn-danger">Reject</a>
+                    </div>
+                    <span class="badge bg-info ms-2">{{ booking.status|title }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-secondary">No booking requests for your flats yet.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
